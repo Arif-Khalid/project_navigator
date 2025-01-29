@@ -20,17 +20,34 @@ SHELL_FILE_NAME="pn.sh"
 # Shell config files dependent on shell used, for bash in linux, they can be found or created at 
 # "/etc/profile", "~/bash_profile", "~/.bash_login" or "~/.profile"
 
-# Variables to edit
+if [[ ! -f "${DIR_NAME}/${PROJECTS_FILE_NAME}" ]]; then
+    echo "${RED}No projects file present"
+    echo "Please add a projects file at ${DIR_NAME}/${PROJECTS_FILE_NAME}${RESET}"
+    return
+fi
+
 IFS='='
 projectNames=()
 projectPaths=()
 while read -a project; do
     if [ ! ${#project[@]} -eq 2 ]; then
-        echo "${RED}Field starting with ${CYAN}${project}${RED} in ${BLUE}${DIR_NAME}/${PROJECTS_FILE_NAME}${RED} not written properly${RESET}"
+        echo "${RED}Field starting with ${CYAN}${project}${RED} in ${BLUE}${DIR_NAME}/${PROJECTS_FILE_NAME}${RED} not written properly"
+        echo "Please write your projects in the form YOUR_PROJECT_NAME=YOUR_PROJECT_ROOT_DIRECTORY${RESET}"
         return
     fi
     projectNames+=("${project[0]}")
     projectPaths+=("${project[1]}")
+    if [[ "${project[1]}" == *"~"* ]]; then
+        echo "${RED}There is a ~ present in the path of ${CYAN}${project[0]}:${project[1]}${RED}"
+        echo "Please use the full path for the tool to function properly${RESET}"
+        echo "You can find the full path by doing ${YELLOW}readlink -f .${RESET} from your project root"
+        echo ""
+    elif [[ "${project[1]}" != /* ]]; then
+        echo "${RED}The path of ${CYAN}${project[0]}:${project[1]}${RED} does not start with /"
+        echo "Please use the full path including the / for the tool to function properly${RESET}"
+        echo "For example, ${CYAN}/home/user/Desktop${RESET}"
+        echo ""
+    fi
 
 done < "${DIR_NAME}/${PROJECTS_FILE_NAME}"
 names_length=${#projectNames[@]}
@@ -45,10 +62,12 @@ while [[ "$option_valid" = false ]]; do
     for i in ${!projectNames[@]}; do
       echo "[$i]: ${CYAN}${projectNames[$i]}${RESET}"
     done
+    echo "${RED}Q to quit${RESET}"
 
     read -p "Option index: " option
-
-    if ! [[ $option =~ $numberRegex ]] || [ $option -ge $names_length ] || [ $option -lt 0 ]; then
+    if [[ $option == "q" ]] || [[ $option == "Q" ]]; then
+        return 
+    elif ! [[ $option =~ $numberRegex ]] || [ $option -ge $names_length ] || [ $option -lt 0 ]; then
         echo "${RED}Your chosen option is invalid, please select again${RESET}"
         option_valid=false
     fi
