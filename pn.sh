@@ -54,7 +54,7 @@ names_length=${#projectNames[@]}
 numberRegex='^[0-9]+$'
 
 echo "Hello and welcome to your ${MAGENTA}Project Navigator${RESET}!"
-echo "${GREEN}Which projects would you like to navigate to?${RESET}"
+echo "${GREEN}Which project would you like to navigate to?${RESET}"
 option_valid=false
 
 while [[ "$option_valid" = false ]]; do
