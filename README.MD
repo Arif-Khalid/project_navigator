@@ -20,6 +20,7 @@ This project uses ``bash`` as the operative shell. It likely needs refactoring t
     1. If you did the optional step 3, you can also run the tool by using ``pn`` in your terminal
 2. Navigate to your desired project by typing the project index as prompted
 
+# Additional Information
 This is a casual project to help me navigate to my files easily through CLI.  
 The best use case is when working with multiple projects and you want to use CLI to navigate to those local repositories quickly.  
-I plan to make the name and path customization more intuitive. Perhaps reading from a separate file instead of editing the shell file.
+Hope this manages to help someone apart from myself 🤓.
