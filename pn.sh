@@ -3,6 +3,7 @@ RED=$(tput setaf 1)
 GREEN=$(tput setaf 2)
 YELLOW=$(tput setaf 3)
 BLUE=$(tput setaf 4)
+MAGENTA=$(tput setaf 5)
 CYAN=$(tput setaf 6)
 RESET=$(tput sgr0)
 DIR_NAME=$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
@@ -10,7 +11,7 @@ PROJECTS_FILE_NAME="projects.txt"
 SHELL_FILE_NAME="pn.sh"
 
 # Remember to call this script with . or source in order to change directory in the calling terminal
-# For example: source pn.sh
+# For example: source pn.sh or . pn.sh
 # 
 # Optionally add the following line to your shell config
 # alias pn="$HOME/path/to/your/folder/containing/this_file"
@@ -72,4 +73,4 @@ if [[ ! -d "${projectPaths[$option]}" ]]; then
 fi 
 cd ${projectPaths[$option]}
 echo "${GREEN}You are now in the directory for ${CYAN}${projectNames[$option]}${GREEN}"
-echo "Use ${YELLOW}nvim${GREEN} to get started${RESET}"
+echo "If you are a ${MAGENTA}Chad${GREEN}, use ${YELLOW}nvim${GREEN} to get started${RESET}"
