@@ -36,8 +36,8 @@ done < "${DIR_NAME}/${PROJECTS_FILE_NAME}"
 names_length=${#projectNames[@]}
 numberRegex='^[0-9]+$'
 
-echo "Hello and welcome to your ${MAGENTA}project navigator${RESET}!"
-echo "${GREEN}Which project$ would you like to navigate to?${RESET}"
+echo "Hello and welcome to your ${MAGENTA}Project Navigator${RESET}!"
+echo "${GREEN}Which projects would you like to navigate to?${RESET}"
 option_valid=false
 
 while [[ "$option_valid" = false ]]; do
@@ -61,4 +61,4 @@ if [[ ! -d "${projectPaths[$option]}" ]]; then
 fi 
 cd ${projectPaths[$option]}
 echo "${GREEN}You are now in the directory for ${CYAN}${projectNames[$option]}${GREEN}"
-echo "If you are a ${MAGENTA}Chad${GREEN}, use ${YELLOW}nvim${GREEN} to get started${RESET}"
+echo "If you are a ${MAGENTA}CHAD${GREEN}, use ${YELLOW}nvim${GREEN} to get started${RESET}"
