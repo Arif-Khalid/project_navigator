@@ -1,7 +1,9 @@
 # Project Navigator
 Are your c and d keys worn out from overuse everytime you re-open a project?  
 Worry no more! This project navigator can help you easily navigate to your deeply nested repositories.  
-![project_navigator_example](https://github.com/Arif-Khalid/project_navigator/blob/main/images/project_navigator_example.png)
+<p align="center">
+  <img src="https://github.com/Arif-Khalid/project_navigator/blob/main/images/project_navigator_example.png" alt="Project Navigator Example"/>
+</p>
 # Installation
 This project uses ``bash`` as the operative shell. It likely needs refactoring to work in other shells.
 1. Clone the repo or copy the file ``pn.sh`` and ``projects.txt`` into the same folder. I put it into a local ``~/.project_navigator`` directory, it doesn't really matter. However, the file names cannot be changed and they must be in the same directory
