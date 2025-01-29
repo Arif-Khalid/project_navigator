@@ -14,7 +14,7 @@ SHELL_FILE_NAME="pn.sh"
 # For example: source pn.sh or . pn.sh
 # 
 # Optionally add the following line to your shell config
-# alias pn="$HOME/path/to/your/folder/containing/this_file"
+# alias pn=". $HOME/path/to/your/folder/containing/this_file/pn.sh"
 # Then you can start project navigation with the shorter command: pn
 #
 # Shell config files dependent on shell used, for bash in linux, they can be found or created at 
@@ -25,8 +25,6 @@ IFS='='
 projectNames=()
 projectPaths=()
 while read -a project; do
-    echo ${project[0]}
-    echo ${project[1]}
     if [ ! ${#project[@]} -eq 2 ]; then
         echo "${RED}Field starting with ${CYAN}${project}${RED} in ${BLUE}${DIR_NAME}/${PROJECTS_FILE_NAME}${RED} not written properly${RESET}"
         return
@@ -35,27 +33,17 @@ while read -a project; do
     projectPaths+=("${project[1]}")
 
 done < "${DIR_NAME}/${PROJECTS_FILE_NAME}"
-
-#projectNames=("Neovim Config" "Project 1" "Project 2") # Project names to identify your projects
-#projectPaths=("$HOME/.config/nvim" "$HOME/Desktop/Project_1" "$HOME/Desktop/Project_2") # The paths of the respective project in the same order
-
 names_length=${#projectNames[@]}
-paths_length=${#projectPaths[@]}
-if [ ! $names_length -eq $paths_length ]; then
-    echo "${RED}The project names and paths have different lengths"
-    echo "Please edit ${BLUE}${DIR_NAME}/${SHELL_FILE_NAME}${RED} to include the same number of items in each array${RESET}"
-    return
-fi
 numberRegex='^[0-9]+$'
 
-echo "Hello and welcome to your repo navigator!"
-echo "Which project would you like to navigate to?"
+echo "Hello and welcome to your ${MAGENTA}project navigator${RESET}!"
+echo "${GREEN}Which project$ would you like to navigate to?${RESET}"
 option_valid=false
 
 while [[ "$option_valid" = false ]]; do
     option_valid=true
     for i in ${!projectNames[@]}; do
-      echo "[$i]: ${projectNames[$i]}"
+      echo "[$i]: ${CYAN}${projectNames[$i]}${RESET}"
     done
 
     read -p "Option index: " option
@@ -68,7 +56,7 @@ while [[ "$option_valid" = false ]]; do
 done
 if [[ ! -d "${projectPaths[$option]}" ]]; then
     echo "${RED}The directory for ${CYAN}${projectNames[$option]}: ${BLUE}${projectPaths[$option]}${RED} does not exist"
-    echo "Please edit ${BLUE}${DIR_NAME}/${SHELL_FILE_NAME}${RED} to point to a valid directory${RESET}"
+    echo "Please edit ${BLUE}${DIR_NAME}/${PROJECTS_FILE_NAME}${RED} to point to a valid directory${RESET}"
     return
 fi 
 cd ${projectPaths[$option]}
