@@ -13,7 +13,7 @@ This project uses ``bash`` as the operative shell. It likely needs refactoring t
 3. Add the following line to your shell config ``alias pn="$HOME/path/to/your/folder/containing/this_file"``  
     1. Shell config files dependent on shell and operating system used, for bash in linux, they can be found or created at
 "/etc/profile", "\~/bash_profile", "\~/.bash_login" or "\~/.profile"
-    2. Can be done by running ``echo 'alias pn=". $HOME/path/to/your/folder/containing/this_file/pn.sh"' >> $HOME/.profile``
+    2. Can be done by running ``echo 'alias pn=". $HOME/path/to/your/folder/containing/this_file/pn.sh"' >> $HOME/.bashrc``
 4. Exit and re-enter the terminal
 
 # Usage
