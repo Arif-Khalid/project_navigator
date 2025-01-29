@@ -4,17 +4,16 @@ Worry no more! This project navigator can help you easily navigate to your deepl
 
 # Installation
 This project uses ``bash`` as the operative shell. It likely needs refactoring to work in other shells.
-1. Clone the repo or copy the file ``pn.sh``. I put it into a local ``~/.project_navigator`` directory but it doesn't really matter
-2. Edit the lines projectNames=(...) and projectPaths=(...) with your own project`s names and paths
-    1. If you're a rookie <span style="font-size: 10px">like me</span>, be careful when editing the file as shell scripts are space sensitive. Items in the arrays must be space and NOT comma separated
-    2. projectNames and projectPaths must be specified in the same relative order, i.e, the first item in projectNames must be the name of the project pointed to by the first item in projectPaths
-    3. projectPaths should use appropriate path environment variables such as ``$HOME`` instead of ``~``
+1. Clone the repo or copy the file ``pn.sh`` and ``projects.txt`` into the same folder. I put it into a local ``~/.project_navigator`` directory, it doesn't really matter. However, the file names cannot be changed and they must be in the same directory
+2. Edit ``projects.txt`` with your own projects' names and paths
+    1. Use the same format for adding new projects as the examples in projects.txt. Explicitly, the format is ``YOUR_PROJECT_NAME=YOUR_PROJECT_ROOT_DIRECTORY``, with each new project on a new line 
+    2. Use full paths without env variables or ``~``. You can get the full file path to your project by doing ``readlink -f .`` from the root of your project
 ## Optional
-3. Add the following line to your shell config ``alias pn="$HOME/path/to/your/folder/containing/this_file"``  
-    1. Shell config files dependent on shell and operating system used, for bash in linux, they can be found or created at
-"/etc/profile", "\~/bash_profile", "\~/.bash_login" or "\~/.profile"
+3. Add the following line to your shell config ``alias pn=". $HOME/path/to/your/folder/containing/this_file/pn.sh"``  
+    1. Shell config files are dependent on shell and operating system used, for bash in linux, they can be found or created at
+"/etc/profile", "\~/bash_profile" or "\~/.bashrc".
     2. Can be done by running ``echo 'alias pn=". $HOME/path/to/your/folder/containing/this_file/pn.sh"' >> $HOME/.bashrc``
-4. Exit and re-enter the terminal
+4. Quit and re-open the terminal or run ``source ~/.bashrc``
 
 # Usage
 1. Use the tool by running ``. full/path/to/your/folder/pn.sh`` in your terminal
