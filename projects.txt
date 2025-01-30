@@ -1,3 +1,2 @@
 Neovim Config=/home/arif/.config/nvim
-Project 1=/home/arif/Desktop/Project_1
-Project 2=/home/arif/Desktop/Project_2 
+Project Navigator=/home/arif/.project_navigator

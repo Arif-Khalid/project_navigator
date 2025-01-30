@@ -8,7 +8,7 @@ CYAN=$(tput setaf 6)
 RESET=$(tput sgr0)
 DIR_NAME=$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 PROJECTS_FILE_NAME="projects.txt"
-SHELL_FILE_NAME="pn.sh"
+SETUP_FILE_NAME="setup.sh"
 
 # Remember to call this script with . or source in order to change directory in the calling terminal
 # For example: source pn.sh or . pn.sh
@@ -79,5 +79,16 @@ if [[ ! -d "${projectPaths[$option]}" ]]; then
     return
 fi 
 cd ${projectPaths[$option]}
-echo "${GREEN}You are now in the directory for ${CYAN}${projectNames[$option]}${GREEN}"
-echo "If you are a ${MAGENTA}CHAD${GREEN}, use ${YELLOW}nvim${GREEN} to get started${RESET}"
+echo "${GREEN}You are now in the directory for ${CYAN}${projectNames[$option]}${RESET}"
+if [[ -f "./${SETUP_FILE_NAME}" ]]; then
+    echo "${GREEN}I see you are a true ${MAGENTA}CHAD${GREEN} as there is a ${BLUE}${SETUP_FILE_NAME}${GREEN} in this directory"
+    echo "Would you like to run it?${RESET}"
+    read -p "[Y/N]" option
+    if [[ $option == "y" ]] || [[ $option == "Y" ]]; then
+        source ./setup.sh
+    else
+        echo "${GREEN}Run ${CYAN}source ./setup.sh${GREEN} to begin${RESET}"    
+    fi
+else
+    echo "${YELLOW}You may include a ${BLUE}${SETUP_FILE_NAME}${YELLOW} within this directory to set up your development environment"
+fi
