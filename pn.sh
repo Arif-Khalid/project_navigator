@@ -8,8 +8,6 @@ CYAN=$(tput setaf 6)
 RESET=$(tput sgr0)
 DIR_NAME=$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 PROJECTS_FILE_NAME="projects.txt"
-SETUP_FILE_NAME="setup.sh"
-
 # Remember to call this script with . or source in order to change directory in the calling terminal
 # For example: source pn.sh or . pn.sh
 # 
@@ -22,17 +20,19 @@ SETUP_FILE_NAME="setup.sh"
 
 if [[ ! -f "${DIR_NAME}/${PROJECTS_FILE_NAME}" ]]; then
     echo "${RED}No projects file present"
-    echo "Please add a projects file at ${DIR_NAME}/${PROJECTS_FILE_NAME}${RESET}"
+    echo "Please add a projects file at ${CYAN}${DIR_NAME}/${PROJECTS_FILE_NAME}"
     return
 fi
 
 IFS='='
 projectNames=()
 projectPaths=()
+projectSetups=()
 while read -a project; do
-    if [ ! ${#project[@]} -eq 2 ]; then
-        echo "${RED}Field starting with ${CYAN}${project}${RED} in ${BLUE}${DIR_NAME}/${PROJECTS_FILE_NAME}${RED} not written properly"
-        echo "Please write your projects in the form YOUR_PROJECT_NAME=YOUR_PROJECT_ROOT_DIRECTORY${RESET}"
+    if [ ! ${#project[@]} -eq 2 ] &&  [ ! ${#project[@]} -eq 3 ]; then
+        echo "${RED}Field starting with ${CYAN}${project}${RED} in ${CYAN}${DIR_NAME}/${PROJECTS_FILE_NAME}${RED} not written properly"
+        echo "Please write your projects in the form ${YELLOW}YOUR_PROJECT_NAME=YOUR_PROJECT_ROOT_DIRECTORY[=YOUR_SETUP_FILE]"
+        echo "[] indicates an optional part${RESET}"
         return
     fi
     projectNames+=("${project[0]}")
@@ -47,6 +47,22 @@ while read -a project; do
         echo "Please use the full path including the / for the tool to function properly${RESET}"
         echo "For example, ${CYAN}/home/user/Desktop${RESET}"
         echo ""
+    fi
+    if [ ${#project[@]} -eq 3 ]; then
+        projectSetups+=("${project[2]}")
+        if [[ "${project[2]}" == *"~"* ]]; then
+            echo "${RED}There is a ~ present in the setup path of ${CYAN}${project[0]}:${project[2]}${RED}"
+            echo "Please use the full path for the tool to function properly${RESET}"
+            echo "You can find the full path by doing ${YELLOW}readlink -f YOUR_SETUP_FILE${RESET}"
+            echo ""
+        elif [[ "${project[2]}" != /* ]]; then
+            echo "${RED}The path of ${CYAN}${project[0]}:${project[2]}${RED} does not start with /"
+            echo "Please use the full path including the / for the tool to function properly${RESET}"
+            echo "For example, ${CYAN}/home/user/setup.sh${RESET}"
+            echo ""
+        fi
+    else
+        projectSetups+=("")
     fi
 
 done < "${DIR_NAME}/${PROJECTS_FILE_NAME}"
@@ -74,21 +90,27 @@ while [[ "$option_valid" = false ]]; do
 
 done
 if [[ ! -d "${projectPaths[$option]}" ]]; then
-    echo "${RED}The directory for ${CYAN}${projectNames[$option]}: ${BLUE}${projectPaths[$option]}${RED} does not exist"
-    echo "Please edit ${BLUE}${DIR_NAME}/${PROJECTS_FILE_NAME}${RED} to point to a valid directory${RESET}"
+    echo "${RED}The directory for ${CYAN}${projectNames[$option]}${RED} at ${YELLOW}${projectPaths[$option]}${RED} does not exist"
+    echo "Please edit ${CYAN}${DIR_NAME}/${PROJECTS_FILE_NAME}${RED} to point to a valid directory${RESET}"
     return
 fi 
 cd ${projectPaths[$option]}
 echo "${GREEN}You are now in the directory for ${CYAN}${projectNames[$option]}${RESET}"
-if [[ -f "./${SETUP_FILE_NAME}" ]]; then
-    echo "${GREEN}I see you are a true ${MAGENTA}CHAD${GREEN} as there is a ${BLUE}${SETUP_FILE_NAME}${GREEN} in this directory"
-    echo "Would you like to run it?${RESET}"
-    read -p "[Y/N]" option
-    if [[ $option == "y" ]] || [[ $option == "Y" ]]; then
-        source ./setup.sh
+setup="${projectSetups[$option]}"
+if [ "${#setup}" -gt 0 ]; then
+    if [[ ! -f "${projectSetups[$option]}" ]]; then
+        echo "${RED}The setup for ${CYAN}${projectNames[$option]}${RED} at ${YELLOW}${projectSetups[$option]}${RED} does not exist"
+        echo "Please edit ${CYAN}${DIR_NAME}/${PROJECTS_FILE_NAME}${RED} to point to a valid setup file${RESET}"
+        return
+    fi
+    echo "${GREEN}I see you are a true ${MAGENTA}CHAD${GREEN} as you have specified a ${YELLOW}setup file${GREEN}"
+    echo "Would you like to run ${YELLOW}${setup}${GREEN}?${RESET}"
+    read -p "[Y(default)/n]:" option
+    if [[ $option == "y" ]] || [[ $option == "Y" ]] || [[ $option == "" ]]; then
+        source "${setup}"
     else
-        echo "${GREEN}Run ${CYAN}source ./setup.sh${GREEN} to begin${RESET}"    
+        echo "${GREEN}Run ${YELLOW}source ${setup}${GREEN} to begin${RESET}"    
     fi
 else
-    echo "${YELLOW}You may include a ${BLUE}${SETUP_FILE_NAME}${YELLOW} within this directory to set up your development environment"
+    echo "${YELLOW}You may include a third argument for each project at ${CYAN}${DIR_NAME}/${PROJECTS_FILE_NAME}${YELLOW} to specify the full path of a setup shell file"
 fi
