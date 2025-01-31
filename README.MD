@@ -23,9 +23,9 @@ This project uses ``bash`` as the operative shell. It likely needs refactoring t
     1. If you did the optional step 3, you can also run the tool by using ``pn`` in your terminal
 2. Navigate to your desired project by typing the project index as prompted
 
+# Additional features
+For each project navigated to, this shell script will check for a ``setup.sh`` file at the project directory pointed to. An example is located within the root of this project that opens a tmux session with 2 windows.    
 # Additional Information
-For each project navigated to, this shell script will check for a ``setup.sh`` file at the project directory pointed to. An example is located within the root of this project that simply opens nvim.  
-The setup.sh file can be used to do something more complex like setting up a ``tmux`` environment with multiple cli applications.  
 This is a casual project to help me navigate to my files easily through CLI.  
 The best use case is when working with multiple projects and you want to use CLI to navigate to those local repositories quickly.  
 Hope this manages to help someone apart from myself 🤓.
