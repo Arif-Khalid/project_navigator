@@ -9,8 +9,8 @@ if [ $? != 0 ]; then
     # No existing session
     tmux new-session -d -s $SESH -n "nvim"
 
-    tmux send-keys -t $SESH:editor "cd ${DIR_PATH}" C-m
-    tmux send-keys -t $SESH:editor "nvim" C-m
+    tmux send-keys -t $SESH:nvim "cd ${DIR_PATH}" C-m
+    tmux send-keys -t $SESH:nvim "nvim" C-m
     
     tmux new-window -t $SESH -n "lazygit"
     tmux send-keys -t $SESH:lazygit "cd ${DIR_PATH}" C-m
