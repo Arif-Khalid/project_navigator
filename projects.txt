@@ -1,3 +1,4 @@
 Neovim Config=/home/arif/.config/nvim=/home/arif/.config/dotfiles/neovim_config_setup.sh
 Project Navigator=/home/arif/.project_navigator=/home/arif/.config/dotfiles/project_navigator_setup.sh
 Tmux Config=/home/arif/.config/tmux=/home/arif/.config/dotfiles/tmux_config_setup.sh
+Dotfiles=/home/arif/.config/dotfiles=/home/arif/.config/dotfiles/dotfiles_setup.sh
