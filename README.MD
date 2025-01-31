@@ -9,8 +9,8 @@ Worry no more! This project navigator can help you easily navigate to your deepl
 This project uses ``bash`` as the operative shell. It likely needs refactoring to work in other shells.
 1. Clone the repo or copy the file ``pn.sh`` and ``projects.txt`` into the same folder. I put it into a local ``~/.project_navigator`` directory, it doesn't really matter. However, the file names cannot be changed and they must be in the same directory
 2. Edit ``projects.txt`` with your own projects' names and paths
-    1. Use the same format for adding new projects as the examples in projects.txt. Explicitly, the format is ``YOUR_PROJECT_NAME=YOUR_PROJECT_ROOT_DIRECTORY``, with each new project on a new line 
-    2. Use full paths without env variables or ``~``. You can get the full file path to your project by doing ``readlink -f .`` from the root of your project
+    1. Use the same format for adding new projects as the examples in projects.txt. Explicitly, the format is ``YOUR_PROJECT_NAME=YOUR_PROJECT_ROOT_DIRECTORY[=YOUR_SETUP_SHELL_FILE]``, with each new project on a new line. The [] indicates an optional argument.   
+    2. Use full paths without env variables or ``~``. You can get the full file path to your project by doing ``readlink -f .`` from the root of your project or ``readline -f YOUR_SETUP_FILE``
 ## Optional
 3. Add the following line to your shell config ``alias pn=". $HOME/path/to/your/folder/containing/this_file/pn.sh"``  
     1. Shell config files are dependent on shell and operating system used, for bash in linux, they can be found or created at
@@ -24,8 +24,10 @@ This project uses ``bash`` as the operative shell. It likely needs refactoring t
 2. Navigate to your desired project by typing the project index as prompted
 
 # Additional features
-For each project navigated to, this shell script will check for a ``setup.sh`` file at the project directory pointed to. An example is located within the root of this project that opens a tmux session with 2 windows.    
+For each project, optionally add the location of a setup shell file as a third argument on each line.  
+If included, this tool will prompt you to run the setup shell file on navigation.  
+This is useful if you have a complex workspace setup you would like to always run such as configuring a tmux workspace.
 # Additional Information
 This is a casual project to help me navigate to my files easily through CLI.  
-The best use case is when working with multiple projects and you want to use CLI to navigate to those local repositories quickly.  
+The best use case is when working with multiple projects and you want to use CLI to navigate to and setup those local repositories quickly.  
 Hope this manages to help someone apart from myself 🤓.
